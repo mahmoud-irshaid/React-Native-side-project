@@ -1,0 +1,6 @@
+
+npx sequelize-cli model:generate --name Users --attributes id:integer, username:string,phone:string,age:integer,dob:dateonly
+
+npx sequelize-cli seed:generate --name Users
+
+ npx sequelize-cli db:seed:all
