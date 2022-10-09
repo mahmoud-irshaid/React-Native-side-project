@@ -8,6 +8,7 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getTasks, deleteTask } from "../store";
@@ -19,6 +20,9 @@ import Calender3 from "./Calender3";
 //import LocalCalendarModalComponent from "./LocalCalendarModalComponent";
 //import { addCalendarEvent } from "./LocalCalendarService";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { SvgXml } from "react-native-svg";
+import img from "../undraw_dog_re_7l04.js";
+import img2 from "../50n.6180d07b.js";
 
 const MyProgressChart = () => {
   const data = {
@@ -109,7 +113,20 @@ function Screen2({ route, navigation }) {
 
   //   setEvent(event);
   //   openLocalCalendarModal();
-  // };
+  // };]]
+
+  useEffect(() => {
+    async function sett(params) {
+      try {
+        // await AsyncStorage.setItem("@MySuperStore:key", "I like to save it.");
+        let val = await AsyncStorage.getItem("@MySuperStore:key");
+        console.log(val, "async");
+      } catch (error) {
+        // Error saving data
+      }
+    }
+    sett();
+  }, []);
 
   return (
     <ScrollView>
@@ -153,9 +170,18 @@ function Screen2({ route, navigation }) {
           title="screen 9"
           onPress={() => navigation.navigate("Screen9")}
         />
+        <Button
+          title="screen 10"
+          onPress={() => navigation.navigate("Screen10")}
+        />
       </View>
       <MyProgressChart />
       <Calender3 />
+      {/* <View>
+        <SvgXml xml={img} width="50%" height="50%" />
+      </View> */}
+      <SvgXml xml={img2} width="50%" height="50%" />
+
       {/* 
       <LocalCalendarModalComponent
         isVisible={isVisibleCalendars}

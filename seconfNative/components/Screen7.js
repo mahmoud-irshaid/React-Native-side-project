@@ -1,20 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  Dimensions,
-  TextInput,
-  ScrollView,
-} from "react-native";
+import { View, Text, Button, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { getTasks, deleteTask } from "../store";
-import Carousel from "react-native-snap-carousel";
-import MonthPicker from "react-native-month-year-picker";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { Calendar } from "react-native-calendars";
 import { Audio } from "expo-av";
 
 function Screen7({ route, navigation }) {
@@ -22,6 +9,19 @@ function Screen7({ route, navigation }) {
   const [URI, setURI] = React.useState();
   const [recordings, setRecordings] = React.useState([]);
   const [result, setResult] = useState();
+  const [playStatus, setPlayStatus] = useState(false);
+
+  const [sound, setSound] = useState();
+
+  React.useEffect(() => {
+    return sound
+      ? () => {
+          console.log("Unloading Sound");
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
+
   async function startRecording() {
     try {
       console.log("Requesting permissions..");
@@ -90,10 +90,25 @@ function Screen7({ route, navigation }) {
     // console.log("Recording stopped and stored at", uri);
   }
 
-  async function playSound(params) {
-    const sound = new Audio.Sound();
-    await sound.loadAsync({ uri: result.file });
+  useEffect(() => {
+    async function soundPlacement(params) {
+      const nsound = new Audio.Sound();
+      setSound(nsound);
+      await sound.loadAsync({ uri: recordings[0].file });
+      console.log(sound);
+    }
+    soundPlacement();
+  }, [recordings[0]]);
+
+  async function playSound() {
+    //  if(sound.playStatus){
     await sound.playAsync();
+    // console.log(sound.playStatus);
+
+    //  }
+    // else{
+
+    // }
   }
 
   return (
@@ -108,7 +123,18 @@ function Screen7({ route, navigation }) {
           {console.log("zzzzzzzzzzzzzz", result)}
 
           <Text>Recording - {result?.duration}</Text>
-          <Button onPress={() => playSound()} title="Play"></Button>
+          <Button onPress={() => playSound(result)} title="Play"></Button>
+          {/* <Button  onPress={() => Sharing.shareAsync(recordingLine.file)} title="Share"></Button> */}
+        </View>
+      )}
+
+      {recordings[0] && (
+        <View>
+          <Text>Recording - {recordings[0]?.duration}</Text>
+          <Button
+            onPress={() => playSound()}
+            title={playStatus ? "Pause" : "Play"}
+          ></Button>
           {/* <Button  onPress={() => Sharing.shareAsync(recordingLine.file)} title="Share"></Button> */}
         </View>
       )}

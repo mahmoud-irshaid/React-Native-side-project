@@ -12,6 +12,7 @@ import Screen6 from "./components/Screen6";
 import Screen7 from "./components/Screen7";
 // import Screen8 from "./components/Screen8";
 import Screen9 from "./components/Screen9";
+import Screen10 from "./components/Screen10";
 
 import { NavigationContainer, StackRouter } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -51,6 +52,7 @@ export default function App() {
           <Stack.Screen name="Screen7" component={Screen7} />
           {/* <Stack.Screen name="Screen8" component={Screen8} /> */}
           <Stack.Screen name="Screen9" component={Screen9} />
+          <Stack.Screen name="Screen10" component={Screen10} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
